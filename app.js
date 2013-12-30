@@ -32,7 +32,7 @@ app.configure(function(){
       db: settings.db 
     }) 
   })); 
-  app.use(routes); 
+  app.use(app.router); 
   app.use(express.static(path.join(__dirname, 'public')));
 }); 
 
@@ -40,6 +40,34 @@ app.configure(function(){
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
+
+
+app.get('/',function(req, res){
+  res.render('index', { title: 'Express' });
+});
+app.get('/users', function(req, res) {
+});
+app.get('/u/:user',function(req, res) {
+});
+app.post('/post', function(req, res) {
+});
+app.get('/reg', function(req, res) {
+  res.render('reg', { title: 'Express' });
+}); 
+app.post('/reg', routes.post);
+
+app.get('/login',function(req, res) {
+  res.render('login', { title: 'Express' });
+}); 
+app.post('/login',function(req, res) {
+}); 
+app.get('/logout', function(req, res) {
+  res.render('logout', { title: 'Express' });
+}); 
+app.get('/demo',function(req, res) {
+  res.render('demo', { title: 'Express' });
+});
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
