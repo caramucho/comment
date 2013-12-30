@@ -5,7 +5,7 @@
 var User = require('../models/user.js');
 var crypto = require('crypto');
 
-exports.post = function(req, res) {
+exports.signin = function(req, res) {
   //检验用户两次输入的口令是否一致
   if (req.body['password-repeat'] != req.body['password']) {
     req.flash('error', '两次输入的口令不一致');
@@ -38,4 +38,24 @@ exports.post = function(req, res) {
   });
   });
 }; 
+exports.login = function(req, res) {
+  //生成口令的散列值
+    var md5 = crypto.createHash('md5');
+  var password = md5.update(req.body.password).digest('base64');
+
+
+  User.get(req.body.username, function(err, user) { 
+    if (!user) { 
+      req.flash('error', '用户不存在'); 
+      return res.redirect('/login'); 
+    } 
+    if (user.password != password) { 
+      req.flash('error', '用户口令错误'); 
+      return res.redirect('/login'); 
+    } 
+    req.session.user = user; 
+    req.flash('success', '登入成功'); 
+    res.redirect('/'); 
+  }); 
+};
 

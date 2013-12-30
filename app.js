@@ -56,13 +56,12 @@ app.post('/post', function(req, res) {
 app.get('/reg', function(req, res) {
   res.render('reg', { title: 'Express' });
 }); 
-app.post('/reg', routes.post);
+app.post('/reg', routes.signin);
 
 app.get('/login',function(req, res) {
   res.render('login', { title: 'Express' });
 }); 
-app.post('/login',function(req, res) {
-}); 
+app.post('/login',routes.login);
 app.get('/logout', function(req, res) {
   res.render('logout', { title: 'Express' });
 }); 
