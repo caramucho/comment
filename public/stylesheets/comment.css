@@ -1,0 +1,12 @@
+.circleCommentTextarea {
+  display: block;
+  width: 100%;
+  padding: 5px;
+  height: 70px;
+  resize: none;
+  outline: medium none;
+  border: 1px solid rgb(173, 182, 201);
+}
+textarea{
+  font-family: 'lucida grande',tahoma,verdana,arial,STHeiTi,simsun,sans-serif;
+}
