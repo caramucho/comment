@@ -1,0 +1,9 @@
+$(function() {
+    $('.demo1').contextMenu('myMenu1',
+        {
+            bindings: {
+                'comment': function(t) {
+                alert('Trigger was '+t.id+'\nAction was Open');
+            },
+    });
+});

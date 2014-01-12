@@ -21,12 +21,34 @@ app.configure(function(){
   app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'ejs'); 
   app.use(express.favicon());
+  app.use(flash());
+  app.use(function(req,res,next){
+    res.locals.user= {
+      stat: function(req, res) {
+        return req.session.user;
+      },
+    error: function(req, res) {
+      var err = req.flash('error');
+      if (err.length)
+    return err;
+      else
+    return null;
+    },
+    success: function(req, res) {
+      var succ = req.flash('success');
+      if (succ.length)
+    return succ;
+      else
+    return null;
+    }
+    }
+    next();
+  });
   app.use(express.json());
   app.use(express.logger('dev'));
   app.use(express.urlencoded());
   app.use(express.bodyParser()); 
   app.use(express.methodOverride()); 
-  app.use(flash());
   app.use(express.cookieParser()); 
   app.use(express.session({ 
     secret: settings.cookieSecret, 
@@ -36,6 +58,8 @@ app.configure(function(){
   })); 
   app.use(app.router); 
   app.use(express.static(path.join(__dirname, 'public')));
+ 
+
 }); 
 
 // development only
@@ -45,7 +69,9 @@ if ('development' == app.get('env')) {
 
 
 app.get('/',function(req, res){
-  res.render('index', { title: 'Express' });
+  res.render('index', { 
+    title: 'Express'
+  });
 });
 app.get('/users', function(req, res) {
 });
@@ -62,9 +88,9 @@ app.get('/login',function(req, res) {
   res.render('login', { title: 'Express' });
 }); 
 app.post('/login',routes.login);
-app.get('/logout', function(req, res) {
-  res.render('logout', { title: 'Express' });
-}); 
+
+app.get('/logout', routes.logout);
+    
 app.get('/demo',function(req, res) {
   res.render('demo', { title: 'Express' });
 });
